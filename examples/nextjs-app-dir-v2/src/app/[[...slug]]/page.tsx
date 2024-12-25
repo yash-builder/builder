@@ -1,4 +1,5 @@
 import { Content, fetchOneEntry, isEditing, isPreviewing } from '@builder.io/sdk-react';
+import { customComponents } from '../components/register';
 
 const BUILDER_PUBLIC_API_KEY = 'f1a790f8c3204b3b8c5c1795aeac4660';
 
@@ -32,5 +33,12 @@ export default async function Page(props: PageProps) {
       </>
     );
   }
-  return <Content content={content} apiKey={BUILDER_PUBLIC_API_KEY} model={'page'} />;
+  return (
+    <Content
+      content={content}
+      apiKey={BUILDER_PUBLIC_API_KEY}
+      model={'page'}
+      customComponents={customComponents}
+    />
+  );
 }
