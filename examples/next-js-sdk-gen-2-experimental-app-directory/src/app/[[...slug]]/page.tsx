@@ -1,4 +1,4 @@
-import { Content, fetchOneEntry, getBuilderSearchParams } from '@builder.io/sdk-react-nextjs';
+import { Content, fetchOneEntry, getBuilderSearchParams } from '../../sdk';
 
 interface MyPageProps {
   params: {
@@ -11,7 +11,7 @@ const apiKey = 'f1a790f8c3204b3b8c5c1795aeac4660';
 
 export default async function Page(props: MyPageProps) {
   // NOTE: the import must be inside the Page component itself.
-  const { initializeNodeRuntime } = await import('@builder.io/sdk-react-nextjs/node/init');
+  const { initializeNodeRuntime } = await import('../../sdk/functions/evaluate/node-runtime/init');
   initializeNodeRuntime();
 
   const urlPath = '/' + (props.params?.slug?.join('/') || '');
