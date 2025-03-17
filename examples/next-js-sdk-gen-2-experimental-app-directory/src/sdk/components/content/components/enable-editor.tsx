@@ -76,10 +76,7 @@ function EnableEditor(props: BuilderEditorProps) {
     postPreviewContent({
       value: newContentValue,
       key: newContentValue.id!,
-    }).then(() => {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      router.refresh();
+      url: window.location.pathname,
     });
   }
 

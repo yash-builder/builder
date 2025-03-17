@@ -23,6 +23,11 @@ export default async function Page(props: MyPageProps) {
     userAttributes: { urlPath },
   });
 
-  return <Content content={content} model="page" apiKey={apiKey} />;
+  return (
+    <>
+      <div>This is the version of the SDK with `revalidatePath(window.location.pathname)`</div>
+      <Content content={content} model="page" apiKey={apiKey} />
+    </>
+  );
 }
 export const revalidate = 1;
