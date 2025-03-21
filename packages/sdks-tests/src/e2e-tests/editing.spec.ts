@@ -646,10 +646,23 @@ test.describe('Visual Editing', () => {
     });
   });
 
-  test('Symbol should update the data when nested values are updated', async ({ page, basePort, sdk }) => {
-    
+  test.only('Symbol should update the data when nested values are updated', async ({
+    page,
+    basePort,
+    sdk,
+  }) => {
     test.skip(excludeGen1(sdk));
 
+    const urlMatch = /https:\/\/cdn\.builder\.io\/api\/v3\/content\/symbol/;
+
+    await page.route(urlMatch, async route => {
+      return route.fulfill({
+        status: 200,
+        json: {
+          results: [NESTED_SYMBOL_CONTENT],
+        },
+      });
+    });
     await launchEmbedderAndWaitForSdk({ path: '/nested-symbol', basePort, page, sdk });
 
     const newContent = cloneContent(NESTED_SYMBOL_CONTENT);
@@ -660,7 +673,7 @@ test.describe('Visual Editing', () => {
       model: 'page',
       sdk,
       path: '/data/blocks/0/component/options/symbol/data/language/1/code',
-      updateFn: () => 'AFK',
+      updateFn: () => 'ABCDEF',
     });
 
     await page.frameLocator('iframe').getByText('AFK').waitFor();

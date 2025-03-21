@@ -2,6 +2,7 @@ import {
   For,
   Show,
   onMount,
+  onUpdate,
   useMetadata,
   useStore,
   useTarget,
@@ -83,6 +84,13 @@ export default function ContentVariants(props: VariantsProviderProps) {
           });
     },
   });
+
+  onUpdate(() => {
+    console.log(
+      'DEBUG: ContentVariants props.data',
+      JSON.stringify(props.data, null, 2)
+    );
+  }, [props.data]);
 
   return (
     <>

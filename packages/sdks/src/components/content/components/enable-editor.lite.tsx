@@ -114,6 +114,10 @@ export default function EnableEditor(props: BuilderEditorProps) {
           });
         },
         default: () => {
+          console.log(
+            'DEBUG: EnableEditor mergeNewContent newContentValue',
+            JSON.stringify(newContentValue.data.language, null, 2)
+          );
           props.builderContextSignal.value.content = newContentValue;
         },
       });
@@ -228,6 +232,10 @@ export default function EnableEditor(props: BuilderEditorProps) {
     },
     emitStateUpdate() {
       if (isEditing()) {
+        console.log(
+          'DEBUG: EnableEditor emitStateUpdate',
+          JSON.stringify(props.builderContextSignal.value.rootState, null, 2)
+        );
         window.dispatchEvent(
           new CustomEvent<BuilderComponentStateChange>(
             'builder:component:stateChange',
@@ -471,6 +479,7 @@ export default function EnableEditor(props: BuilderEditorProps) {
 
   onUpdate(() => {
     if (props.data) {
+      state.mergeNewRootState({ language: null });
       state.mergeNewRootState(props.data);
     }
   }, [props.data]);
