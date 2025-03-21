@@ -73,6 +73,9 @@ function EnableEditor(props: BuilderEditorProps) {
           newContent?.meta?.breakpoints || props.builderContextSignal.content?.meta?.breakpoints,
       },
     };
+    // const decideEditType = (content: BuilderContent) => {}
+    // const editType = decideEditType(newContentValue);
+
     postPreviewContent({
       value: newContentValue,
       key: newContentValue.id!,
