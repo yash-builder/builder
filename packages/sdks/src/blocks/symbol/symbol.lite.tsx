@@ -72,7 +72,7 @@ export default function Symbol(props: SymbolProps) {
         }))) as Nullable<BuilderContent>,
     }),
     setContent() {
-      if (state.contentToUse) return;
+      if (state.contentToUse || props.symbol?.data) return;
 
       fetchSymbolContent({
         symbol: props.symbol,

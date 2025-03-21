@@ -702,6 +702,26 @@ const ANGULAR_WRAP_SYMBOLS_FETCH_AROUND_CHANGES_DEPS = () => ({
           'if (changes.symbol) { this.setContent(); }'
         );
       }
+
+
+      if (code.includes('selector: "builder-symbol"')) {
+        code = code.replaceAll(`this.setAttributes(
+        this.elRef0?.nativeElement,
+        this.elRef0_state_0,
+        changes["elRef0_state_0"]?.currentValue
+      );`, `
+      console.log('DEBUG: changes', Object.keys(changes));
+      if(changes?.symbol && changes?.symbol?.currentValue) {
+        this.node_3_ContentVariants = {...this.node_3_ContentVariants, ...changes?.symbol?.currentValue.data};
+      }
+      console.log('DEBUG: this.node_3_ContentVariants', JSON.stringify(this.node_3_ContentVariants, null, 2));
+      this.setAttributes(
+        this.elRef0?.nativeElement,
+        this.elRef0_state_0,
+        changes["elRef0_state_0"]?.currentValue
+      );`);
+      }
+
       return code;
     },
   },

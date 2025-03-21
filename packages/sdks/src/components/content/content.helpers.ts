@@ -31,6 +31,10 @@ export const getContentInitialValue = ({
   content,
   data,
 }: Pick<ContentProps, 'content' | 'data'>): Nullable<BuilderContent> => {
+  console.trace(
+    'DEBUG: getContentInitialValue data',
+    JSON.stringify(data, null, 2)
+  );
   return !content
     ? undefined
     : {

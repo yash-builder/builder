@@ -1,6 +1,7 @@
 import {
   Show,
   onInit,
+  onUpdate,
   setContext,
   useMetadata,
   useState,
@@ -71,6 +72,13 @@ export default function ContentComponent(props: ContentProps) {
       {}
     ),
   });
+
+  onUpdate(() => {
+    console.log(
+      'DEBUG: ContentComponent props.data',
+      JSON.stringify(props.data, null, 2)
+    );
+  }, [props.data]);
 
   const [builderContextSignal, setBuilderContextSignal] =
     useState<BuilderContextInterface>(
@@ -202,6 +210,8 @@ export default function ContentComponent(props: ContentProps) {
         },
         // eslint-disable-next-line object-shorthand
         solid: { setBuilderContextSignal: setBuilderContextSignal },
+        // eslint-disable-next-line object-shorthand
+        angular: { setBuilderContextSignal: setBuilderContextSignal },
         default: {},
       })}
     >
