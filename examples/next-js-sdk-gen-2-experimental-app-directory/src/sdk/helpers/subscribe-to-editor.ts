@@ -8,7 +8,10 @@ import type { Dictionary } from '../types/typescript';
 import { logger } from './logger';
 type ContentListener = Required<Pick<ContentProps, 'model' | 'trustedHosts'>> & {
   callbacks: {
-    contentUpdate: (updatedContent: BuilderContent) => void;
+    contentUpdate: (
+      updatedContent: BuilderContent,
+      editType: 'client' | 'server' | undefined
+    ) => void;
     stateUpdate: (newState: Dictionary<string>) => void;
     animation: (updatedContent: BuilderAnimation) => void;
     configureSdk: (updatedContent: any) => void;
@@ -47,8 +50,9 @@ export const createEditorListener = ({ model, trustedHosts, callbacks }: Content
             messageContent.entry ||
             messageContent.modelName;
           const contentData = messageContent.data;
+          const editType = messageContent.editType;
           if (key === model) {
-            callbacks.contentUpdate(contentData);
+            callbacks.contentUpdate(contentData, editType);
           }
           break;
         }

@@ -2,12 +2,11 @@ import { TARGET } from '../../constants/target';
 import type { ComponentInfo } from '../../types/components';
 export const componentInfo: ComponentInfo = {
   shouldReceiveBuilderProps: {
-    builderBlock: TARGET === 'reactNative' ? true : false,
+    builderBlock: true,
     builderContext: true,
   },
   name: 'Text',
   static: true,
-  isRSC: true,
   image:
     'https://firebasestorage.googleapis.com/v0/b/builder-3b0a2.appspot.com/o/images%2Fbaseline-text_fields-24px%20(1).svg?alt=media&token=12177b73-0ee3-42ca-98c6-0dd003de1929',
   inputs: [

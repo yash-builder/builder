@@ -41,8 +41,12 @@ import type { BuilderComponentStateChange, ContentProps } from '../content.types
 import { needsElementRefDivForEditing } from './enable-editor.helpers';
 import { getWrapperClassName } from './styles.helpers';
 import { useRouter } from 'next/navigation';
+import { BuilderContext } from '@/sdk/context';
 
 function EnableEditor(props: BuilderEditorProps) {
+  const [contextValue, setContextValue] = useState<BuilderContextInterface>(
+    props.builderContextSignal
+  );
   const elementRef = useRef<HTMLDivElement>(null);
   const [hasExecuted, setHasExecuted] = useState<boolean>(() => false);
 
@@ -58,7 +62,7 @@ function EnableEditor(props: BuilderEditorProps) {
     }
   }
 
-  function mergeNewContent(newContent: BuilderContent) {
+  function mergeNewContent(newContent: BuilderContent, editType: 'client' | 'server' | undefined) {
     const newContentValue = {
       ...props.builderContextSignal.content,
       ...newContent,
@@ -73,14 +77,21 @@ function EnableEditor(props: BuilderEditorProps) {
           newContent?.meta?.breakpoints || props.builderContextSignal.content?.meta?.breakpoints,
       },
     };
-    // const decideEditType = (content: BuilderContent) => {}
-    // const editType = decideEditType(newContentValue);
 
-    postPreviewContent({
-      value: newContentValue,
-      key: newContentValue.id!,
-      url: window.location.pathname,
-    });
+    console.log('DEBUG: SDK: RECEIEVED editType: ', editType);
+
+    if (editType === 'server') {
+      postPreviewContent({
+        value: newContentValue,
+        key: newContentValue.id!,
+        url: window.location.pathname,
+      });
+    } else {
+      setContextValue(PREVIOUS_VALUE => ({
+        ...PREVIOUS_VALUE,
+        content: newContentValue,
+      }));
+    }
   }
 
   function showContentProps() {
@@ -115,8 +126,8 @@ function EnableEditor(props: BuilderEditorProps) {
         animation: animation => {
           triggerAnimation(animation);
         },
-        contentUpdate: newContent => {
-          mergeNewContent(newContent);
+        contentUpdate: (newContent, editType) => {
+          mergeNewContent(newContent, editType);
         },
         stateUpdate: newState => {
           mergeNewRootState(newState);
@@ -372,7 +383,7 @@ function EnableEditor(props: BuilderEditorProps) {
   }, []);
 
   return (
-    <builderContext.Provider value={props.builderContextSignal}>
+    <builderContext.Provider value={contextValue}>
       {props.builderContextSignal.content || needsElementRefDivForEditing() ? (
         <ContentWrapper
           {...{}}

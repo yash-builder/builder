@@ -30,6 +30,7 @@ function ContentComponent(props: ContentProps) {
     contentId: props.content?.id!,
   });
   const contentSetState = function contentSetState(newRootState: BuilderRenderState) {
+    console.log('contentSetState', newRootState);
     builderContextSignal.rootState = newRootState;
   };
   const registeredComponents = [
@@ -112,6 +113,7 @@ function ContentComponent(props: ContentProps) {
       enrich={props.enrich}
       showContent={props.showContent}
       builderContextSignal={builderContextSignal}
+      setBuilderContextSignal={contentSetState}
       contentWrapper={props.contentWrapper}
       contentWrapperProps={props.contentWrapperProps}
       trustedHosts={props.trustedHosts}
